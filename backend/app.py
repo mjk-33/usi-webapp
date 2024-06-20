@@ -4,12 +4,13 @@ import os
 
 app = Flask(__name__)
 
+# Get database credentials from environment variables
 username = os.getenv('DB_USERNAME')
 password = os.getenv('DB_PASSWORD')
 host = os.getenv('DB_HOST')
 dbname = os.getenv('DB_NAME')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{username}:{password}@{host}/{dbname}'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql+psycopg2://{username}:{password}@{host}/{dbname}'
 db = SQLAlchemy(app)
 
 class Temperature(db.Model):

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Temperature Data</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Temperature Data</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Temperature</th>
+                <th>Location</th>
+                <th>Timestamp</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="data-table">
+        </tbody>
+    </table>
+    <script>
+        async function fetchData() {
+            const response = await fetch('/api/temperature');
+            const data = await response.json();
+            const table = document.getElementById('data-table');
+            table.innerHTML = '';
+            data.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.id}</td>
+                    <td>${record.temperature}</td>
+                    <td><input type="text" value="${record.location}" onchange="updateLocation(${record.id}, this.value)"></td>
+                    <td>${record.timestamp}</td>
+                    <td><button onclick="deleteRecord(${record.id})">Delete</button></td>
+                `;
+                table.appendChild(row);
+            });
+        }
+
+        async function updateLocation(id, newLocation) {
+            await fetch(`/api/temperature/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ location: newLocation }),
+            });
+            fetchData();
+        }
+
+        async function deleteRecord(id) {
+            await fetch(`/api/temperature/${id}`, {
+                method: 'DELETE',
+            });
+            fetchData();
+        }
+
+        fetchData();
+    </script>
+</body>
+</html>

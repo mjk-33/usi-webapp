@@ -2,7 +2,7 @@ import subprocess
 import requests
 import time
 
-API_URL = ''
+api_url = config['DEFAULT']['API_URL']
 
 def get_cpu_temperature():
     result = subprocess.run(['/usr/bin/vcgencmd', 'measure_temp'], capture_output=True, text=True)
@@ -16,5 +16,5 @@ while True:
         'temperatura': temperature,
         'lokalizacja': 'Wroclaw'
     }
-    response = requests.post(API_URL, json=data)
+    response = requests.post(api_url, json=data)
     print(response.status_code, response.json())

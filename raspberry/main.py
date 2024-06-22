@@ -1,8 +1,11 @@
 import subprocess
 import requests
 import time
+import configparser
 
-api_url = config['DEFAULT']['API_URL']
+config = configparser.ConfigParser()
+config.read('/home/pi/temperature_monitor/config.ini')
+API_URL = config['DEFAULT']['API_URL']
 
 def get_cpu_temperature():
     result = subprocess.run(['/usr/bin/vcgencmd', 'measure_temp'], capture_output=True, text=True)
@@ -13,8 +16,12 @@ def get_cpu_temperature():
 while True:
     temperature = get_cpu_temperature()
     data = {
-        'temperatura': temperature,
-        'lokalizacja': 'Wroclaw'
+        'temperature': temperature,
+        'location': 'Home'
     }
-    response = requests.post(api_url, json=data)
-    print(response.status_code, response.json())
+    try:
+        response = requests.post(API_URL, json=data)
+        print(response.status_code, response.json())
+    except Exception as e:
+        print(f"Error sending data: {e}")
+    time.sleep(600)  # every 10 minutes

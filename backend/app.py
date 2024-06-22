@@ -4,11 +4,11 @@ import os
 
 app = Flask(__name__)
 
-# Get database credentials from environment variables
-username = os.getenv('DB_USERNAME')
-password = os.getenv('DB_PASSWORD')
-host = os.getenv('DB_HOST')
-dbname = os.getenv('DB_NAME')
+username = config['DEFAULT']['DB_USERNAME']
+password = config['DEFAULT']['DB_PASSWORD']
+dbname = config['DEFAULT']['DB_NAME']
+host = config['DEFAULT']['DB_HOST']
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql+psycopg2://{username}:{password}@{host}/{dbname}'
 db = SQLAlchemy(app)

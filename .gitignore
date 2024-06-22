@@ -5,3 +5,7 @@ raspberry/config.ini
 
 # backend repo
 backend/config.ini
+
+# project repo
+config.ini
+temperature-app-host-key.pem

@@ -6,12 +6,23 @@ import configparser
 app = Flask(__name__)
 
 config = configparser.ConfigParser()
-config.read('./config.ini')
+config_path = '/app/config.ini'
+logging.debug(f'Reading config from {config_path}')
+config.read(config_path)
 
-username = config['DEFAULT']['DB_USERNAME']
-password = config['DEFAULT']['DB_PASSWORD']
-dbname = config['DEFAULT']['DB_NAME']
-host = config['DEFAULT']['DB_HOST']
+logging.debug(f'Config sections: {config.sections()}')
+
+if 'DEFAULT' not in config:
+    logging.error('DEFAULT section missing in config.ini')
+
+username = config['DEFAULT'].get('DB_USERNAME', None)
+password = config['DEFAULT'].get('DB_PASSWORD', None)
+host = config['DEFAULT'].get('DB_HOST', None)
+dbname = config['DEFAULT'].get('DB_NAME', None)
+
+if not all([username, password, host, dbname]):
+    logging.error('Database configuration missing in config.ini')
+    logging.debug(f'DB_USERNAME: {username}, DB_PASSWORD: {password}, DB_HOST: {host}, DB_NAME: {dbname}')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql+psycopg2://{username}:{password}@{host}/{dbname}'
 db = SQLAlchemy(app)

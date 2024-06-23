@@ -44,15 +44,35 @@
     height: 100%;   
     margin: 0;
     padding: 0;
+    flex-direction: column;
 }
 
   body ul li {
     opacity: 0;
   }
 
-  body.is-open ul li {
+ body.is-open ul li {
     opacity: 100%;
+    padding: 10px;
   }
+
+  #temperature-list li {
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 630px;
+  }
+
+  #temperature-list li button {
+    padding: 12px 25px;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: transparent;
+    color: white;
+    margin: 0 10px;
+    font-size: 26px;
+}
   
   .is-open {
     color: white;

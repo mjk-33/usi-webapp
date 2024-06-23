@@ -1,10 +1,15 @@
+import os
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-import os
 import configparser
+import logging
 
 app = Flask(__name__)
 
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
+
+# Read configuration from config.ini
 config = configparser.ConfigParser()
 config_path = '/app/config.ini'
 logging.debug(f'Reading config from {config_path}')
@@ -19,6 +24,11 @@ username = config['DEFAULT'].get('DB_USERNAME', None)
 password = config['DEFAULT'].get('DB_PASSWORD', None)
 host = config['DEFAULT'].get('DB_HOST', None)
 dbname = config['DEFAULT'].get('DB_NAME', None)
+
+logging.debug(f'DB_USERNAME: {username}')
+logging.debug(f'DB_PASSWORD: {password}')
+logging.debug(f'DB_HOST: {host}')
+logging.debug(f'DB_NAME: {dbname}')
 
 if not all([username, password, host, dbname]):
     logging.error('Database configuration missing in config.ini')
@@ -76,4 +86,4 @@ def delete_temperature(id):
     return jsonify({"message": "Data deleted successfully!"})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)

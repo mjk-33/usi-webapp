@@ -6,8 +6,10 @@ import logging
 
 app = Flask(__name__)
 
+# Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
+# Read configuration from config.ini
 config = configparser.ConfigParser()
 config_path = '/app/config.ini'
 logging.debug(f'Reading config from {config_path}')
@@ -85,3 +87,4 @@ def delete_temperature(id):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+

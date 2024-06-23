@@ -10,7 +10,6 @@ CORS(app)  # Enable CORS for all routes
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
-# Read environment variables
 username = os.getenv('DB_USERNAME')
 password = os.getenv('DB_PASSWORD')
 host = os.getenv('DB_HOST')

@@ -55,75 +55,75 @@ $(function () {
   
   })
 
-// const API_URL = "http://your-ec2-public-dns:5000/api/temperature";
+const API_URL = "http://ec2-35-159-105-113.eu-central-1.compute.amazonaws.com:5000/api/temperature";
 
-//     async function fetchTemperatureData() {
-//       try {
-//         console.log(`Fetching data from ${API_URL}`);
-//         const response = await fetch(API_URL);
-//         console.log('Response status:', response.status);
-//         if (!response.ok) {
-//           throw new Error('Network response was not ok');
-//         }
-//         const data = await response.json();
-//         console.log('Data received:', data);
-//         displayTemperatureData(data);
-//       } catch (error) {
-//         console.error('Error fetching data:', error);
-//       }
-//     }
+    async function fetchTemperatureData() {
+      try {
+        console.log(`Fetching data from ${API_URL}`);
+        const response = await fetch(API_URL);
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log('Data received:', data);
+        displayTemperatureData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
 
-//     async function deleteTemperature(id) {
-//       try {
-//         const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-//         if (!response.ok) {
-//           throw new Error('Network response was not ok');
-//         }
-//         console.log(`Record with id ${id} deleted`);
-//         fetchTemperatureData();  // Refresh the list
-//       } catch (error) {
-//         console.error('Error deleting data:', error);
-//       }
-//     }
+    async function deleteTemperature(id) {
+      try {
+        const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log(`Record with id ${id} deleted`);
+        fetchTemperatureData();  // Refresh the list
+      } catch (error) {
+        console.error('Error deleting data:', error);
+      }
+    }
 
-//     async function editTemperature(id, location) {
-//       const newLocation = prompt('Enter new location:', location);
-//       if (newLocation !== null) {
-//         try {
-//           const response = await fetch(`${API_URL}/${id}`, {
-//             method: 'PUT',
-//             headers: {
-//               'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({ location: newLocation })
-//           });
-//           if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//           }
-//           console.log(`Record with id ${id} updated`);
-//           fetchTemperatureData();  // Refresh the list
-//         } catch (error) {
-//           console.error('Error updating data:', error);
-//         }
-//       }
-//     }
+    async function editTemperature(id, location) {
+      const newLocation = prompt('Enter new location:', location);
+      if (newLocation !== null) {
+        try {
+          const response = await fetch(`${API_URL}/${id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ location: newLocation })
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          console.log(`Record with id ${id} updated`);
+          fetchTemperatureData();  // Refresh the list
+        } catch (error) {
+          console.error('Error updating data:', error);
+        }
+      }
+    }
 
-//     function displayTemperatureData(data) {
-//       const list = document.getElementById('temperature-list');
-//       list.innerHTML = '';  // Clear any existing content
-//       data.forEach(temp => {
-//         const listItem = document.createElement('li');
-//         listItem.textContent = `${temp.temperature} °C at ${temp.location} on ${new Date(temp.timestamp).toLocaleString()}`;
-//         const deleteButton = document.createElement('button');
-//         deleteButton.textContent = 'Delete';
-//         deleteButton.onclick = () => deleteTemperature(temp.id);
-//         const editButton = document.createElement('button');
-//         editButton.textContent = 'Edit';
-//         editButton.onclick = () => editTemperature(temp.id, temp.location);
-//         listItem.appendChild(editButton);
-//         listItem.appendChild(deleteButton);
-//         list.appendChild(listItem);
-//       });
-//     }
+    function displayTemperatureData(data) {
+      const list = document.getElementById('temperature-list');
+      list.innerHTML = '';  // Clear any existing content
+      data.forEach(temp => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${temp.temperature} °C at ${temp.location} on ${new Date(temp.timestamp).toLocaleString()}`;
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = () => deleteTemperature(temp.id);
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.onclick = () => editTemperature(temp.id, temp.location);
+        listItem.appendChild(editButton);
+        listItem.appendChild(deleteButton);
+        list.appendChild(listItem);
+      });
+    }
 
-//     fetchTemperatureData();
+    fetchTemperatureData();

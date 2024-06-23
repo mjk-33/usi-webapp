@@ -1,4 +1,5 @@
 .DS_Store
+.env
 
 # raspberry repo
 raspberry/config.ini

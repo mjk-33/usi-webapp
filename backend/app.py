@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 # Read configuration from config.ini
 config = configparser.ConfigParser()
-config_path = '/app/config.ini'
+config_path = 'config.ini'
 logging.debug(f'Reading config from {config_path}')
 config.read(config_path)
 

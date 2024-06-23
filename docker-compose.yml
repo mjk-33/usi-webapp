@@ -4,10 +4,13 @@ services:
     build: ./backend
     ports:
       - "5000:5000"
-    env_file:
-      - ./config.ini
+    environment:
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
 
   frontend:
     build: ./frontend
     ports:
-      - "80:80"
+      - "80:80

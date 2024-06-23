@@ -27,15 +27,17 @@
   <ul id="temperature-list"></ul>
 
   <script>
-    const API_URL = "http://your-ec2-public-dns:5000/api/temperature";
+    const API_URL = "http://ec2-18-199-98-144.eu-central-1.compute.amazonaws.com:5000/api/temperature";
 
     async function fetchTemperatureData() {
       try {
+        console.log(`Fetching data from ${API_URL}`);
         const response = await fetch(API_URL);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
+        console.log('Data received:', data);
         displayTemperatureData(data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -44,6 +46,7 @@
 
     function displayTemperatureData(data) {
       const list = document.getElementById('temperature-list');
+      list.innerHTML = ''; // Clear any existing content
       data.forEach(temp => {
         const listItem = document.createElement('li');
         listItem.textContent = `${temp.temperature} °C at ${temp.location} on ${new Date(temp.timestamp).toLocaleString()}`;

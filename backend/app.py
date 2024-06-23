@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
+import configpaser
 
 app = Flask(__name__)
 
@@ -9,6 +10,8 @@ password = config['DEFAULT']['DB_PASSWORD']
 dbname = config['DEFAULT']['DB_NAME']
 host = config['DEFAULT']['DB_HOST']
 
+config = configparser.ConfigParser()
+config.read('./config.ini')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql+psycopg2://{username}:{password}@{host}/{dbname}'
 db = SQLAlchemy(app)
